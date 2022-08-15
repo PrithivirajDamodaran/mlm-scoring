@@ -630,7 +630,7 @@ class MLMScorerPT(BaseScorer):
         return SimpleDataset(sents_expanded)
 
 
-    def score(self, corpus: Corpus, temp: float = 1.0, split_size: int = 2000, ratio: float = 0, per_token: bool = False, run_debiased: bool = False) -> List[float]:
+    def score(self, corpus: Corpus, temp: float = 1.0, split_size: int = 2000, ratio: float = 0, per_token: bool = False) -> List[float]:
 
         assert temp == 1.0
 
@@ -690,6 +690,7 @@ class MLMScorerPT(BaseScorer):
                 batch_scores_per_ctx[ctx_idx] = []
                 batch_masked_positions_per_ctx[ctx_idx] = []
 
+        run_debiased = kwargs.pop('run_debiased')
         # For now just predicts the first non-cls token
         for batch_id, batch in enumerate(dataloader):
 
