@@ -1,3 +1,13 @@
+# Extending Bias-Bench for Sentence-Transformers
+---
+
+## Once debiasing for a certain sentence transformers model using INLP or Sentence Debias run scorer with extra param run_debiased
+model, vocab, tokenizer = get_pretrained(ctxs, 'bert-base-cased')
+scorer = MLMScorerPT(model, vocab, tokenizer, ctxs, run_debiased=True)
+print(scorer.score_sentences(["Hello world!"]))
+
+
+<br> 
 # Masked Language Model Scoring
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
