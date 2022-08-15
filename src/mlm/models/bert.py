@@ -280,7 +280,19 @@ class BertForMaskedLMOptimized(BertForMaskedLM):
         if select_positions is not None:
             sequence_output = sequence_output[[[i] for i in range(sequence_output.shape[0])], select_positions, :]
         ### END MODIFICATION
+        
+        ### START DEBIAS-CHANGE
         print("==== Debug ", sequence_output.shape)
+        projection_matrix = torch.load("./results/projection_matrix/all-MiniLM-L6-v2.pt")
+        projection_matrix = projection_matrix.to(input_ids.device)
+
+        sequence_output = sequence_output.squeeze()    
+        for t in range(sequence_output.shape[0]):
+            sequence_output[t:, ] = torch.matmul(projection_matrix, sequence_output[t:, ].T).T
+            
+        sequence_output =  sequence_output.unsqueeze(1)  
+        print("==== Debug ", sequence_output.shape)
+        ### END DEBIAS-CHANGE
 
         prediction_scores = self.cls(sequence_output)
 
