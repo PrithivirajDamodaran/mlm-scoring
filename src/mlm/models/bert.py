@@ -273,6 +273,7 @@ class BertForMaskedLMOptimized(BertForMaskedLM):
 
         sequence_output = outputs[0]
         print("==== Debug ", sequence_output.shape)
+        sequence_output = sequence_output[0,:,:]
 
         ### START MODIFICATION
         # Only apply MLM head to desired positions
