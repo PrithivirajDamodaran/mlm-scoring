@@ -31,6 +31,7 @@ from transformers import AlbertForMaskedLM, BertForMaskedLM, DistilBertForMasked
 from transformers.activations import gelu
 from transformers.modeling_outputs import MaskedLMOutput
 from torch.nn import CrossEntropyLoss
+import torch
 
 
 class BERTRegression(Block):
