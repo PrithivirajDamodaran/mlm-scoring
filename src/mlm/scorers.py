@@ -630,7 +630,7 @@ class MLMScorerPT(BaseScorer):
         return SimpleDataset(sents_expanded)
 
 
-    def score(self, corpus: Corpus, temp: float = 1.0, split_size: int = 2000, ratio: float = 0, per_token: bool = False) -> List[float]:
+    def score(self, corpus: Corpus, temp: float = 1.0, split_size: int = 2000, ratio: float = 0, per_token: bool = False, run_debiased: bool = False) -> List[float]:
 
         assert temp == 1.0
 
@@ -724,8 +724,7 @@ class MLMScorerPT(BaseScorer):
                         alen = torch.arange(token_ids.shape[1], dtype=torch.long)
                         alen = alen.to(ctx)
                         mask = alen < valid_length[:, None]
-                        out = self._model(input_ids=token_ids, attention_mask=mask, select_positions=masked_positions)
-                        print(len(out))
+                        out = self._model(input_ids=token_ids, attention_mask=mask, select_positions=masked_positions, run_debiased=run_debiased)
                         print(out[0].shape)
                         out = out[0].squeeze()
                     elif isinstance(self._model.module, transformers.BertForMaskedLM):
