@@ -274,7 +274,6 @@ class BertForMaskedLMOptimized(BertForMaskedLM):
         )
 
         sequence_output = outputs[0]
-        print("==== Debug ", sequence_output.shape)
 
 
         ### START MODIFICATION
@@ -286,7 +285,6 @@ class BertForMaskedLMOptimized(BertForMaskedLM):
         ### START DEBIAS-CHANGE
         if run_debiased:
             
-            print("==== Debug ", sequence_output.shape)
             projection_matrix = torch.load("/content/bias-bench/results/projection_matrix/all-MiniLM-L6-v2.pt")
             projection_matrix = projection_matrix.to(input_ids.device)
 
@@ -295,7 +293,7 @@ class BertForMaskedLMOptimized(BertForMaskedLM):
                 sequence_output[t:, ] = torch.matmul(projection_matrix, sequence_output[t:, ].T).T
 
             sequence_output =  sequence_output.unsqueeze(1)  
-            print("==== Debug ", sequence_output.shape)
+
         ### END DEBIAS-CHANGE
 
         prediction_scores = self.cls(sequence_output)
