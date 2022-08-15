@@ -236,6 +236,7 @@ class BertForMaskedLMOptimized(BertForMaskedLM):
         return_dict=None,
         # New argument:
         select_positions=None,
+        run_debiased = False,
         **kwargs
     ):
         r"""
@@ -256,7 +257,6 @@ class BertForMaskedLMOptimized(BertForMaskedLM):
         assert "lm_labels" not in kwargs, "Use `BertWithLMHead` for autoregressive language modeling task."
         assert kwargs == {}, f"Unexpected keyword arguments: {list(kwargs.keys())}."
 
-        run_debiased = kwargs.pop("run_debiased")    
         return_dict = return_dict if return_dict is not None else self.config.use_return_dict
 
         outputs = self.bert(
