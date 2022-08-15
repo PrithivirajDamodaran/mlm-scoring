@@ -725,7 +725,8 @@ class MLMScorerPT(BaseScorer):
                         alen = alen.to(ctx)
                         mask = alen < valid_length[:, None]
                         out = self._model(input_ids=token_ids, attention_mask=mask, select_positions=masked_positions)
-                        print(out[0].shape,  out[1].shape)
+                        print(len(out))
+                        print(out[0].shape)
                         out = out[0].squeeze()
                     elif isinstance(self._model.module, transformers.BertForMaskedLM):
                         # Because BERT does not take a length parameter
