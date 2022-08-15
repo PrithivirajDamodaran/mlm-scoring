@@ -164,7 +164,6 @@ Model '{model.__class__.__name__}' is not supported by the scorer '{self.__class
 
     def score_sentences(self, sentences: List[str], **kwargs) -> float:
         corpus = Corpus.from_text(sentences)
-        print(kwargs["run_debiased"])
         return self.score(corpus, **kwargs)[0]
 
 
