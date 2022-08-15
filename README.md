@@ -4,8 +4,8 @@
 ## Once debiasing for a certain sentence transformers model using INLP or Sentence Debias run scorer with extra param run_debiased
 ```python
 model, vocab, tokenizer = get_pretrained(ctxs, 'bert-base-cased')
-scorer = MLMScorerPT(model, vocab, tokenizer, ctxs, run_debiased=True)
-print(scorer.score_sentences(["Hello world!"]))
+scorer = MLMScorerPT(model, vocab, tokenizer, ctxs)
+print(scorer.score_sentences(["Hello world!"], run_debiased=True)
 ```
 
 <br/> 
