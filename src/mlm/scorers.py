@@ -630,7 +630,7 @@ class MLMScorerPT(BaseScorer):
         return SimpleDataset(sents_expanded)
 
 
-    def score(self, corpus: Corpus, temp: float = 1.0, split_size: int = 2000, ratio: float = 0, per_token: bool = False) -> List[float]:
+    def score(self, corpus: Corpus, temp: float = 1.0, split_size: int = 2000, ratio: float = 0, per_token: bool = False, **kwargs) -> List[float]:
 
         assert temp == 1.0
 
