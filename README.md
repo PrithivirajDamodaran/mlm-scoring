@@ -1,4 +1,4 @@
-# Extending Bias-Bench for Sentence-Transformers
+# Extending MLM-Scoring for Sentence-Transformers
 
 
 ## Once debiasing for a certain sentence transformers model using INLP or Sentence Debias run scorer with extra param run_debiased
