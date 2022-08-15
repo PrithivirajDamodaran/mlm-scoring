@@ -75,8 +75,6 @@ SUPPORTED_MLMS = [
     'bert-base-en-uncased-owt',
     'bert-base-multi-uncased',
     'bert-base-multi-cased',
-    'sentence-transformers/all-MiniLM-L6-v2'
-
 ]
 
 SUPPORTED_LMS = [
