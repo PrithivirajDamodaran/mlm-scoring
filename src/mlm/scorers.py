@@ -164,6 +164,7 @@ Model '{model.__class__.__name__}' is not supported by the scorer '{self.__class
 
     def score_sentences(self, sentences: List[str], **kwargs) -> float:
         corpus = Corpus.from_text(sentences)
+        print(kwargs["run_debiased"])
         return self.score(corpus, **kwargs)[0]
 
 
@@ -690,7 +691,7 @@ class MLMScorerPT(BaseScorer):
                 batch_scores_per_ctx[ctx_idx] = []
                 batch_masked_positions_per_ctx[ctx_idx] = []
 
-        run_debiased = kwargs.pop('run_debiased')
+        run_debiased = kwargs['run_debiased']
         # For now just predicts the first non-cls token
         for batch_id, batch in enumerate(dataloader):
 
