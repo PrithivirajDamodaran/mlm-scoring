@@ -256,6 +256,7 @@ class BertForMaskedLMOptimized(BertForMaskedLM):
         assert "lm_labels" not in kwargs, "Use `BertWithLMHead` for autoregressive language modeling task."
         assert kwargs == {}, f"Unexpected keyword arguments: {list(kwargs.keys())}."
 
+        run_debiased = kwargs.pop("run_debiased")    
         return_dict = return_dict if return_dict is not None else self.config.use_return_dict
 
         outputs = self.bert(
@@ -274,7 +275,7 @@ class BertForMaskedLMOptimized(BertForMaskedLM):
 
         sequence_output = outputs[0]
         print("==== Debug ", sequence_output.shape)
-        #sequence_output = sequence_output[0,:,:]
+
 
         ### START MODIFICATION
         # Only apply MLM head to desired positions
@@ -283,16 +284,18 @@ class BertForMaskedLMOptimized(BertForMaskedLM):
         ### END MODIFICATION
         
         ### START DEBIAS-CHANGE
-        print("==== Debug ", sequence_output.shape)
-        projection_matrix = torch.load("./results/projection_matrix/all-MiniLM-L6-v2.pt")
-        projection_matrix = projection_matrix.to(input_ids.device)
-
-        sequence_output = sequence_output.squeeze()    
-        for t in range(sequence_output.shape[0]):
-            sequence_output[t:, ] = torch.matmul(projection_matrix, sequence_output[t:, ].T).T
+        if run_debiased:
             
-        sequence_output =  sequence_output.unsqueeze(1)  
-        print("==== Debug ", sequence_output.shape)
+            print("==== Debug ", sequence_output.shape)
+            projection_matrix = torch.load("/content/bias-bench/results/projection_matrix/all-MiniLM-L6-v2.pt")
+            projection_matrix = projection_matrix.to(input_ids.device)
+
+            sequence_output = sequence_output.squeeze()    
+            for t in range(sequence_output.shape[0]):
+                sequence_output[t:, ] = torch.matmul(projection_matrix, sequence_output[t:, ].T).T
+
+            sequence_output =  sequence_output.unsqueeze(1)  
+            print("==== Debug ", sequence_output.shape)
         ### END DEBIAS-CHANGE
 
         prediction_scores = self.cls(sequence_output)
