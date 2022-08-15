@@ -273,13 +273,14 @@ class BertForMaskedLMOptimized(BertForMaskedLM):
 
         sequence_output = outputs[0]
         print("==== Debug ", sequence_output.shape)
-        sequence_output = sequence_output[0,:,:]
+        #sequence_output = sequence_output[0,:,:]
 
         ### START MODIFICATION
         # Only apply MLM head to desired positions
         if select_positions is not None:
             sequence_output = sequence_output[[[i] for i in range(sequence_output.shape[0])], select_positions, :]
         ### END MODIFICATION
+        print("==== Debug ", sequence_output.shape)
 
         prediction_scores = self.cls(sequence_output)
 
