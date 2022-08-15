@@ -722,12 +722,10 @@ class MLMScorerPT(BaseScorer):
                         isinstance(self._model.module, BertForMaskedLMOptimized) or \
                         isinstance(self._model.module, DistilBertForMaskedLMOptimized):
                         # Because BERT does not take a length parameter
-                        print("Prithivi")
                         alen = torch.arange(token_ids.shape[1], dtype=torch.long)
                         alen = alen.to(ctx)
                         mask = alen < valid_length[:, None]
                         out = self._model(input_ids=token_ids, attention_mask=mask, select_positions=masked_positions, run_debiased=run_debiased)
-                        print(out[0].shape)
                         out = out[0].squeeze()
                     elif isinstance(self._model.module, transformers.BertForMaskedLM):
                         # Because BERT does not take a length parameter
